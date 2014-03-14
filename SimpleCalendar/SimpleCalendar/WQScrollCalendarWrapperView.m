@@ -271,13 +271,13 @@
 {
     WQScrollCalendarView *tempScrollCalendarView = self.scrollCalendarView4CurrentMonth;
     self.scrollCalendarView4CurrentMonth = self.scrollCalendarView4NextMonth;
-    self.scrollCalendarView4PreMonth = tempScrollCalendarView;
     self.scrollCalendarView4NextMonth = self.scrollCalendarView4PreMonth;
+    self.scrollCalendarView4PreMonth = tempScrollCalendarView;
     
     WQCalendarLogic *tempLogic = self.logic4CurrentMonth;
     self.logic4CurrentMonth = self.logic4NextMonth;
-    self.logic4PreMonth = tempLogic;
     self.logic4NextMonth = self.logic4PreMonth;
+    self.logic4PreMonth = tempLogic;
     
     NSUInteger oldMonth = self.currentMonth;
     self.currentWeek = 0;

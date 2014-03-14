@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DC77C4B5-DE1E-46E1-8543-A82C2A1ED4D5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SimpleCalendar</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B902308F-71E5-447A-BBC4-6F789E81FF81</key>
+		<string>https://github.com/siqin/SimpleCalendar.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SimpleCalendar/SimpleCalendar.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B902308F-71E5-447A-BBC4-6F789E81FF81</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/siqin/SimpleCalendar.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B902308F-71E5-447A-BBC4-6F789E81FF81</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B902308F-71E5-447A-BBC4-6F789E81FF81</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SimpleCalendar</string>
+		</dict>
+	</array>
+</dict>
+</plist>
