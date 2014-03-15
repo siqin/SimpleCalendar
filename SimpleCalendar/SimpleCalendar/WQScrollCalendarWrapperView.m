@@ -224,10 +224,9 @@
                 ;
             }
             
-            NSLog(@"Content Info : %f, %f", self.contentView.frame.origin.x, self.contentView.frame.size.width);
-            NSLog(@"Pre Info : %f, %f", self.scrollCalendarView4PreMonth.frame.origin.x, self.scrollCalendarView4PreMonth.frame.size.width);
-            NSLog(@"Current Info : %f, %f", self.scrollCalendarView4CurrentMonth.frame.origin.x, self.scrollCalendarView4CurrentMonth.frame.size.width);
-            NSLog(@"Next Info : %f, %f", self.scrollCalendarView4NextMonth.frame.origin.x, self.scrollCalendarView4NextMonth.frame.size.width);
+            NSLog(@"Pre month : %d-%d\n", self.logic4PreMonth.selectedCalendarDay.year, self.logic4PreMonth.selectedCalendarDay.month);
+            NSLog(@"Current month : %d-%d\n", self.logic4CurrentMonth.selectedCalendarDay.year, self.logic4CurrentMonth.selectedCalendarDay.month);
+            NSLog(@"Next month : %d-%d\n\n", self.logic4NextMonth.selectedCalendarDay.year, self.logic4NextMonth.selectedCalendarDay.month);
         }];
     }
 }

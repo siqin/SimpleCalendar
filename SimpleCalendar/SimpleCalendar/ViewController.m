@@ -103,7 +103,9 @@
 
 - (void)monthDidChangeFrom:(NSInteger)fromMonth to:(NSInteger)toMonth
 {
-    if (toMonth < fromMonth || (fromMonth == 1 && toMonth == 12)) {
+    if (fromMonth == 12 && toMonth == 1) {
+        [self goToNextMonth];
+    } else if (toMonth < fromMonth || (fromMonth == 1 && toMonth == 12)) {
         [self goToPreviousMonth];
     } else {
         [self goToNextMonth];
