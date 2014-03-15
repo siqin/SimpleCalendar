@@ -12,8 +12,11 @@
 #import "WQCalendarView.h"
 #import "WQScrollCalendarView.h"
 
+@protocol WQCalendarLogicDelegate;
+
 @interface WQCalendarLogic : NSObject
 
+@property (nonatomic, weak) id<WQCalendarLogicDelegate> delegate;
 @property (nonatomic, readonly) WQCalendarDay *selectedCalendarDay;
 
 - (void)reloadCalendarView:(WQCalendarView *)calendarView;
@@ -25,5 +28,11 @@
 // 日历月份切换动画可以考虑用3个calendarView来模拟
 - (void)goToPreviousMonthInCalendarView:(WQCalendarView *)calendarView;
 - (void)goToNextMonthInCalendarView:(WQCalendarView *)calendarView;
+
+@end
+
+@protocol WQCalendarLogicDelegate <NSObject>
+
+- (void)calendarMonthDidChange;
 
 @end

@@ -86,6 +86,10 @@
     gridView.dataSource = self;
     
     [gridView reloadData];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(calendarMonthDidChange)]) {
+        [self.delegate calendarMonthDidChange];
+    }
 }
 
 #pragma mark -
@@ -200,6 +204,8 @@
     
     if ([calendarDay isEqualTo:self.selectedCalendarDay]) {
         tileView.selected = YES;
+    } else {
+        tileView.selected = NO;
     }
     
     if ([calendarDay isEqualTo:self.currentCalendarDay]) {
@@ -266,6 +272,6 @@
     }
 }
 
-#pragma mark - 
+#pragma mark -
 
 @end

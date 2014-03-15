@@ -20,6 +20,7 @@
 
 @property (nonatomic, readwrite) NSInteger selectedRow;
 @property (nonatomic, readwrite) NSInteger selectedColumn;
+@property (nonatomic, strong) WQCalendarTileView *selectedTileView;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
@@ -37,15 +38,15 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
-#pragma mark - 
+#pragma mark -
 
 - (void)reloadData
 {
@@ -54,6 +55,7 @@
     }
     
     self.clipsToBounds = YES;
+    self.backgroundColor = [UIColor orangeColor];
     
     self.rows = [self.dataSource numberOfRowsInGridView:self];
     
@@ -84,6 +86,7 @@
             if (tileView.selected) {
                 self.selectedRow = i;
                 self.selectedColumn = j;
+                self.selectedTileView = tileView;
             }
         }
     }
@@ -116,16 +119,16 @@
 
 - (void)tileViewDidTap:(UITapGestureRecognizer *)tapGesture
 {
-    for (WQCalendarTileView *tileView in self.tiles) {
-        if (tileView.selected) {
-            tileView.selected = NO;
-        }
-    }
-    
     CGPoint point = [tapGesture locationInView:self];
     int row = point.y / self.rowHeight;
     int column = point.x / self.columnWidth;
-    [self tileForRow:row column:column].selected = YES;
+    
+    WQCalendarTileView *selectedTileView = [self tileForRow:row column:column];
+    if (selectedTileView == nil) return ;
+    
+    self.selectedTileView.selected = NO;
+    self.selectedTileView = selectedTileView;
+    self.selectedTileView.selected = YES;
     
     self.selectedRow = row;
     self.selectedColumn = column;

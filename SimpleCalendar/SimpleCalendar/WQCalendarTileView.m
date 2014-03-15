@@ -29,15 +29,15 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
-#pragma mark - 
+#pragma mark -
 
 - (void)layoutWithStyle:(WQCalendarTileStyle)style
 {
@@ -62,20 +62,19 @@
     self.label.backgroundColor = self.backgroundColor;
 }
 
-#pragma mark - 
+#pragma mark -
 
 - (void)setSelected:(BOOL)selected
 {
-    static UIColor *unselectedColor = nil;
-    if (unselectedColor == nil) {
-        unselectedColor = self.label.backgroundColor;
+    static UIColor *selectedColor = nil;
+    if (selectedColor == nil) {
+        selectedColor = [UIColor colorWithRed:70/255.0f green:171/255.0f blue:179/255.0f alpha:1];
     }
     
     if (selected) {
-        self.label.backgroundColor = [UIColor colorWithRed:70/255.0f green:171/255.0f blue:179/255.0f alpha:1];
+        self.label.backgroundColor = selectedColor;
     } else {
-        self.label.backgroundColor = unselectedColor;
-        unselectedColor = nil;
+        self.label.backgroundColor = [UIColor whiteColor];
     }
     
     _selected = selected;

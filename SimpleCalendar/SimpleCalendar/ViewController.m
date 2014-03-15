@@ -19,6 +19,8 @@
 @property (nonatomic, strong) WQDraggableCalendarView *calendarView;
 @property (nonatomic, strong) WQCalendarLogic *calendarLogic;
 
+@property (nonatomic, strong) WQScrollCalendarWrapperView *scrollCalendarView;
+
 @end
 
 @implementation ViewController
@@ -34,13 +36,13 @@
     
     UIButton *preBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     preBtn.frame = (CGRect){25, 15, 60, 44};
-    [preBtn addTarget:self action:@selector(goToPreviousMonth) forControlEvents:UIControlEventTouchUpInside];
+    [preBtn addTarget:self action:@selector(goToPreviousMonth:) forControlEvents:UIControlEventTouchUpInside];
     [preBtn setTitle:@"上一月" forState:UIControlStateNormal];
     [self.view addSubview:preBtn];
     
     UIButton *nextBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     nextBtn.frame = (CGRect){235, 15, 60, 44};
-    [nextBtn addTarget:self action:@selector(goToNextMonth) forControlEvents:UIControlEventTouchUpInside];
+    [nextBtn addTarget:self action:@selector(goToNextMonth:) forControlEvents:UIControlEventTouchUpInside];
     [nextBtn setTitle:@"下一月" forState:UIControlStateNormal];
     [self.view addSubview:nextBtn];
     
@@ -72,11 +74,11 @@
     CGRect scrollRect = self.view.bounds;
     scrollRect.origin.y = 400;
     scrollRect.size.height = 40;
-    WQScrollCalendarWrapperView *scrollCalendarView = [[WQScrollCalendarWrapperView alloc] initWithFrame:scrollRect];
-    scrollCalendarView.backgroundColor = [UIColor greenColor];
-    scrollCalendarView.delegate = self;
-    [self.view addSubview:scrollCalendarView];
-    [scrollCalendarView reloadData];
+    self.scrollCalendarView = [[WQScrollCalendarWrapperView alloc] initWithFrame:scrollRect];
+    self.scrollCalendarView.backgroundColor = [UIColor greenColor];
+    self.scrollCalendarView.delegate = self;
+    [self.view addSubview:self.scrollCalendarView];
+    [self.scrollCalendarView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,16 +89,24 @@
 
 #pragma mark - 
 
-- (void)goToNextMonth
+- (void)goToNextMonth:(id)sender
 {
     [self.calendarLogic goToNextMonthInCalendarView:self.calendarView];
     self.monthLabel.text = [NSString stringWithFormat:@"%d年%d月", self.calendarLogic.selectedCalendarDay.year, self.calendarLogic.selectedCalendarDay.month];
+    
+    if (sender != nil) {
+        [self.scrollCalendarView moveToDate:[self.calendarLogic.selectedCalendarDay date]];
+    }
 }
 
-- (void)goToPreviousMonth
+- (void)goToPreviousMonth:(id)sender
 {
     [self.calendarLogic goToPreviousMonthInCalendarView:self.calendarView];
     self.monthLabel.text = [NSString stringWithFormat:@"%d年%d月", self.calendarLogic.selectedCalendarDay.year, self.calendarLogic.selectedCalendarDay.month];
+    
+    if (sender != nil) {
+        [self.scrollCalendarView moveToDate:[self.calendarLogic.selectedCalendarDay date]];
+    }
 }
 
 #pragma mark - WQScrollCalendarWrapperViewDelegate
@@ -104,11 +114,11 @@
 - (void)monthDidChangeFrom:(NSInteger)fromMonth to:(NSInteger)toMonth
 {
     if (fromMonth == 12 && toMonth == 1) {
-        [self goToNextMonth];
+        [self goToNextMonth:nil];
     } else if (toMonth < fromMonth || (fromMonth == 1 && toMonth == 12)) {
-        [self goToPreviousMonth];
+        [self goToPreviousMonth:nil];
     } else {
-        [self goToNextMonth];
+        [self goToNextMonth:nil];
     }
 }
 

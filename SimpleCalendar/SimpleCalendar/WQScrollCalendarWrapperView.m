@@ -1,6 +1,6 @@
 //
 //  WQScrollCalendarWrapperView.m
-//  SimpleCalendar
+//  WQCalendar
 //
 //  Created by Jason Lee on 14-3-14.
 //  Copyright (c) 2014年 Jason Lee. All rights reserved.
@@ -50,13 +50,13 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 #pragma mark -
 
@@ -76,12 +76,6 @@
     [self.logic4NextMonth reloadScrollCalendarView:self.scrollCalendarView4NextMonth withDate:[date dayInTheFollowingMonth]];
     
     [self addAllScrollCalendarViewOntoContentView];
-    [self addSubview:self.contentView];
-    
-    NSDateComponents *c = [date YMDComponents];
-    self.currentYear = c.year;
-    self.currentMonth = c.month;
-    self.currentWeek = [date weekNumberInCurrentMonth];
     
     [self moveToDate:date];
 }
@@ -90,16 +84,26 @@
 
 - (void)moveToDate:(NSDate *)date
 {
-    // 如果 date 不属于当前月是否考虑reloadData下？目前内部调用，认为 date 属于当前月
+    NSDateComponents *c = [date YMDComponents];
     
-    NSUInteger weekNumber = [date weekNumberInCurrentMonth];
-    [self moveToWeek:weekNumber];
+    if (c.year != self.currentYear || c.month != self.currentMonth) {
+        self.currentYear = c.year;
+        self.currentMonth = c.month;
+        self.currentWeek = [date weekNumberInCurrentMonth];
+        [self reloadDataWithDate:date];
+    } else {
+        self.currentWeek = [date weekNumberInCurrentMonth];
+        [self scrollToWeek:self.currentWeek];
+    }
 }
 
-- (void)moveToWeek:(NSUInteger)weekIndex animated:(BOOL)animated
+- (void)scrollToWeek:(NSUInteger)weekIndex animated:(BOOL)animated
 {
     if (!animated) {
-        [self moveToWeek:weekIndex];
+        CGRect rect = self.contentView.frame;
+        rect.origin.x -= weekIndex * self.bounds.size.width;
+        self.contentView.frame = rect;
+        self.totalWeekIndex = self.weeksInPreMonth + weekIndex;
     } else {
         CGRect rect = self.contentView.frame;
         rect.origin.x -= weekIndex * self.bounds.size.width;
@@ -112,12 +116,9 @@
     }
 }
 
-- (void)moveToWeek:(NSUInteger)weekIndex
+- (void)scrollToWeek:(NSUInteger)weekIndex
 {
-    CGRect rect = self.contentView.frame;
-    rect.origin.x -= weekIndex * self.bounds.size.width;
-    self.contentView.frame = rect;
-    self.totalWeekIndex = self.weeksInPreMonth + weekIndex;
+    [self scrollToWeek:weekIndex animated:NO];
 }
 
 #pragma mark -
@@ -179,6 +180,7 @@
     
     if (self.contentView == nil) {
         self.contentView = [[UIView alloc] initWithFrame:self.bounds];
+        [self addSubview:self.contentView];
         
         UISwipeGestureRecognizer *leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipe:)];
         leftSwipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -224,9 +226,9 @@
                 ;
             }
             
-            NSLog(@"Pre month : %d-%d\n", self.logic4PreMonth.selectedCalendarDay.year, self.logic4PreMonth.selectedCalendarDay.month);
-            NSLog(@"Current month : %d-%d\n", self.logic4CurrentMonth.selectedCalendarDay.year, self.logic4CurrentMonth.selectedCalendarDay.month);
-            NSLog(@"Next month : %d-%d\n\n", self.logic4NextMonth.selectedCalendarDay.year, self.logic4NextMonth.selectedCalendarDay.month);
+            if (self.delegate && [self.delegate respondsToSelector:@selector(calendarViewDidScroll)]) {
+                [self.delegate calendarViewDidScroll];
+            }
         }];
     }
 }
@@ -259,7 +261,7 @@
     [self.logic4PreMonth reloadScrollCalendarView:self.scrollCalendarView4PreMonth withDate:[[day date] dayInThePreviousMonth]];
     
     [self addAllScrollCalendarViewOntoContentView];
-    [self moveToWeek:self.currentWeek];
+    [self scrollToWeek:self.currentWeek];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(monthDidChangeFrom:to:)]) {
         [self.delegate monthDidChangeFrom:oldMonth to:self.currentMonth];
@@ -292,7 +294,7 @@
     [self.logic4NextMonth reloadScrollCalendarView:self.scrollCalendarView4NextMonth withDate:[[day date] dayInTheFollowingMonth]];
     
     [self addAllScrollCalendarViewOntoContentView];
-    [self moveToWeek:self.currentWeek];
+    [self scrollToWeek:self.currentWeek];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(monthDidChangeFrom:to:)]) {
         [self.delegate monthDidChangeFrom:oldMonth to:self.currentMonth];
