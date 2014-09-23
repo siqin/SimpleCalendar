@@ -49,7 +49,7 @@
     CGRect labelRect = (CGRect){110, 15, 100, 44};
     self.monthLabel = [[UILabel alloc] initWithFrame:labelRect];
     self.monthLabel.textAlignment = NSTextAlignmentCenter;
-    self.monthLabel.text = [NSString stringWithFormat:@"%d年%d月", self.calendarLogic.selectedCalendarDay.year, self.calendarLogic.selectedCalendarDay.month];
+    self.monthLabel.text = [NSString stringWithFormat:@"%lu年%lu月", (unsigned long)self.calendarLogic.selectedCalendarDay.year, (unsigned long)self.calendarLogic.selectedCalendarDay.month];
     self.monthLabel.textColor = [UIColor blackColor];
     [self.view addSubview:self.monthLabel];
     
@@ -92,7 +92,7 @@
 - (void)goToNextMonth:(id)sender
 {
     [self.calendarLogic goToNextMonthInCalendarView:self.calendarView];
-    self.monthLabel.text = [NSString stringWithFormat:@"%d年%d月", self.calendarLogic.selectedCalendarDay.year, self.calendarLogic.selectedCalendarDay.month];
+    self.monthLabel.text = [NSString stringWithFormat:@"%lu年%lu月", (unsigned long)self.calendarLogic.selectedCalendarDay.year, (unsigned long)self.calendarLogic.selectedCalendarDay.month];
     
     if (sender != nil) {
         [self.scrollCalendarView moveToDate:[self.calendarLogic.selectedCalendarDay date]];
@@ -102,7 +102,7 @@
 - (void)goToPreviousMonth:(id)sender
 {
     [self.calendarLogic goToPreviousMonthInCalendarView:self.calendarView];
-    self.monthLabel.text = [NSString stringWithFormat:@"%d年%d月", self.calendarLogic.selectedCalendarDay.year, self.calendarLogic.selectedCalendarDay.month];
+    self.monthLabel.text = [NSString stringWithFormat:@"%lu年%lu月", (unsigned long)self.calendarLogic.selectedCalendarDay.year, (unsigned long)self.calendarLogic.selectedCalendarDay.month];
     
     if (sender != nil) {
         [self.scrollCalendarView moveToDate:[self.calendarLogic.selectedCalendarDay date]];
@@ -120,6 +120,11 @@
     } else {
         [self goToNextMonth:nil];
     }
+}
+
+- (void)calendarViewDidScroll
+{
+    ;
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -140,11 +145,11 @@
     
     switch (component) {
         case 0:
-            title = [NSString stringWithFormat:@"%d 时", row];
+            title = [NSString stringWithFormat:@"%ld 时", (long)row];
             break;
             
         case 1:
-            title = [NSString stringWithFormat:@"%d 分", row];
+            title = [NSString stringWithFormat:@"%ld 分", (long)row];
             break;
             
         default:

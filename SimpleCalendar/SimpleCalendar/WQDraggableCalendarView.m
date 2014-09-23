@@ -102,7 +102,6 @@ typedef enum _wqCalendarPanDirection {
 
 - (void)onDrag:(UIPanGestureRecognizer *)panGesture
 {
-    CGPoint location = [panGesture locationInView:self];
     CGPoint translation = [panGesture translationInView:self];
     CGPoint velocity = [panGesture velocityInView:self];
     

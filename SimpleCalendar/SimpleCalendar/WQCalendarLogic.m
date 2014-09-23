@@ -130,7 +130,7 @@
     NSDateComponents *components = [dayInThePreviousMonth YMDComponents];
     
     self.daysInPreviousMonth = [NSMutableArray arrayWithCapacity:partialDaysCount];
-    for (int i = daysCount - partialDaysCount + 1; i < daysCount + 1; ++i) {
+    for (NSUInteger i = daysCount - partialDaysCount + 1; i < daysCount + 1; ++i) {
         WQCalendarDay *calendarDay = [WQCalendarDay calendarDayWithYear:components.year month:components.month day:i];
         [self.daysInPreviousMonth addObject:calendarDay];
         [self.calendarDays addObject:calendarDay];
@@ -195,7 +195,7 @@
 
 - (void)configureTileView:(WQCalendarTileView *)tileView withCalendarDay:(WQCalendarDay *)calendarDay
 {
-    tileView.label.text = [NSString stringWithFormat:@"%d", calendarDay.day];
+    tileView.label.text = [NSString stringWithFormat:@"%lu", (unsigned long)calendarDay.day];
     
     if (calendarDay.month != self.selectedCalendarDay.month) {
         tileView.label.backgroundColor = [UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:0.8f];
@@ -245,7 +245,7 @@
     }
     
     WQCalendarDay *calendarDay = self.calendarDays[row * 7 + column];
-    tileView.label.text = [NSString stringWithFormat:@"%d", calendarDay.day];
+    tileView.label.text = [NSString stringWithFormat:@"%lu", (unsigned long)calendarDay.day];
     
     if (calendarDay.month != self.selectedCalendarDay.month) {
         tileView.label.backgroundColor = [UIColor colorWithRed:241/255.0f green:241/255.0f blue:241/255.0f alpha:0.8f];
